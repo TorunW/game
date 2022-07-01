@@ -16,7 +16,6 @@ function RoomList() {
   const dispatch = useAppDispatch();
   const rooms = useAppSelector((state) => state.rooms.rooms);
   const chatRoom = useAppSelector((state) => state.rooms.chatRoom);
-  console.log(rooms);
 
   useEffect(() => {
     getRooms();
