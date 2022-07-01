@@ -97,16 +97,16 @@ export default function Rooms() {
       });
 
       socket.on('activateYourTurn', (data) => {
-        console.log(data.state);
+        // console.log(data.state);
         let val = false;
-        console.log(data.user, socket.id);
+        // console.log(data.user, socket.id);
         // if (!data.user) val = true;
         if (chatRoomType === 'cpu') {
           if (data.user === socket.id && data.state === 'play') val = true;
         } else {
           if (data.user !== socket.id) val = true;
         }
-        console.log(val, ' VAL ON ACTIVATE YOUR TURN');
+        // console.log(val, ' VAL ON ACTIVATE YOUR TURN');
         setTurnIsActive(val);
       });
     }
@@ -140,13 +140,13 @@ export default function Rooms() {
   }
 
   function onSendNumber(value: number) {
-    console.log(value, ' VALUE ON SEND NUMBER');
+    // console.log(value, ' VALUE ON SEND NUMBER');
     setTurnIsActive(false);
     setSelectedNumber(value);
   }
 
   function onReciveNumber(data: any) {
-    console.log(data, ' ON RECIEVE NUMBER ');
+    // console.log(data, ' ON RECIEVE NUMBER ');
 
     let newMessages: {
       prevNumber: any;

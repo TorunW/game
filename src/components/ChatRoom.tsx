@@ -6,13 +6,12 @@ import { welcomeMessage } from '../features/chatRoomSlice';
 function ChatRoom() {
   const { socket, username } = useSockets();
   const dispatch = useAppDispatch();
-  //   const welcomeMessage = useAppSelector(
-  //     (state) => state.rooms.chatRoom.message
-  //   );
+  const s = useAppSelector((state) => state);
+  console.log(s, 'state');
 
   useEffect(() => {
     socket.on('message', (data) => {
-      console.log(data);
+      console.log(data, 'data');
       dispatch(welcomeMessage(data.message));
       //   setwelcomeMsg(data);
     });
