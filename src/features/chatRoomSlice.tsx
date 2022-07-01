@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import type { RootState } from '../../app/store'
 
-export type Message = {
+export type Messages = {
   user: string;
   message: string;
   room: string;
@@ -9,12 +9,12 @@ export type Message = {
 
 // Define a type for the slice state
 interface ChatRoomState {
-    messages: Message{}
+  messages: Messages;
 }
 
 // Define the initial state using that type
 const initialState: ChatRoomState = {
- messages: {}
+  messages: {},
 };
 
 export const chatRoomSlice = createSlice({
@@ -22,8 +22,8 @@ export const chatRoomSlice = createSlice({
   initialState,
   reducers: {
     welcomeMessage: (state, action) => {
-      state.message = action.payload.message;
-      console.log((state.message = action.payload.message), 'payloadwhatever');
+      state.messages = action.payload.message;
+      console.log((state.messages = action.payload.message), 'payloadwhatever');
     },
     //     userJoinedMessage: (state) => {
     //     },
