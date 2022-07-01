@@ -21,6 +21,7 @@ function ChatRoom() {
   //   if (chatRoom) {
   chatRoomDisplay = (
     <div>
+      hello
       {/* <p>{welcomeMessage.message}</p> */}
       {/* <p>
           {userJoinedMsg

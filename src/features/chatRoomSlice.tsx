@@ -9,12 +9,18 @@ export type Messages = {
 
 // Define a type for the slice state
 interface ChatRoomState {
-  messages: Messages;
+  //   messages: Messages[];
+  user: string;
+  message: string;
+  room: object;
 }
 
 // Define the initial state using that type
 const initialState: ChatRoomState = {
-  messages: {},
+  //   messages: [],
+  user: '',
+  message: '',
+  room: {},
 };
 
 export const chatRoomSlice = createSlice({
@@ -22,8 +28,8 @@ export const chatRoomSlice = createSlice({
   initialState,
   reducers: {
     welcomeMessage: (state, action) => {
-      state.messages = action.payload.message;
-      console.log((state.messages = action.payload.message), 'payloadwhatever');
+      state.message = action.payload.message;
+      console.log(action, 'action');
     },
     //     userJoinedMessage: (state) => {
     //     },

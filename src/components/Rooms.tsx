@@ -43,6 +43,7 @@ export default function Rooms() {
   const [chatRoom, setChatRoom] = useState('');
   const [chatRoomType, setChatRoomType] = useState('');
   const [welcomeMsg, setwelcomeMsg] = useState<Message>();
+  console.log(welcomeMsg);
   const [userJoinedMsg, setUserJoinedMsg] = useState<Message>();
   const [gameReady, setGameReady] = useState(false);
   const [gameIsActive, setGameIsActive] = useState(false);
