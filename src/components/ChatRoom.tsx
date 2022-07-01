@@ -8,7 +8,7 @@ function ChatRoom() {
   const dispatch = useAppDispatch();
   const s = useAppSelector((state) => state);
   console.log(s, 'state');
-
+  console.log(welcomeMessage, 'welcomemessage');
   useEffect(() => {
     socket.on('message', (data) => {
       console.log(data, 'data');
