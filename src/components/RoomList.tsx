@@ -15,7 +15,7 @@ function RoomList() {
 
   const dispatch = useAppDispatch();
   const rooms = useAppSelector((state) => state.rooms.rooms);
-  const chatRoom = useAppSelector((state) => state.rooms.chatRoom);
+  const chatroom = useAppSelector((state) => state.rooms.chatroom);
 
   useEffect(() => {
     getRooms();
@@ -37,16 +37,18 @@ function RoomList() {
       room,
       roomType: room.type,
     });
-    dispatch(joinRoom({ chatRoom: room.id, chatRoomType: room.type }));
+    dispatch(joinRoom({ chatroom: room.id, chatroomType: room.type }));
   }
 
   function onLeaveRoom() {
-    socket.emit('leaveRoom', { room: chatRoom });
+    socket.emit('leaveRoom', { room: chatroom });
     dispatch(leaveRoom());
-    // setChatRoom('');
-    // setChatRoomType('');
+    // setChatroom('');
+    // setChatroomType('');
   }
 
+  // if both aren't logged already and one joins a room the other one doesn't
+  // see how many player has oined and which rooms are full
   let roomsNavDisplay;
   if (rooms) {
     roomsNavDisplay = rooms.map((r) => {

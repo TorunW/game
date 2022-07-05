@@ -1,39 +1,50 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useSockets } from '../context/socket.context';
-import { welcomeMessage } from '../features/chatRoomSlice';
+import {
+  welcomeMessage,
+  userJoinedMessage,
+  ready,
+} from '../features/chatroomSlice';
 
-function ChatRoom() {
-  const { socket, username } = useSockets();
+function Chatroom() {
+  const { socket } = useSockets();
   const dispatch = useAppDispatch();
-  const s = useAppSelector((state) => state);
-  console.log(s, 'state');
-  console.log(welcomeMessage, 'welcomemessage');
+  const welocmeMessageDisplay = useAppSelector(
+    (state) => state.chatroom.message
+  );
+  const userJoinedMessageDisplay = useAppSelector(
+    (state) => state.chatroom.user
+  );
+  const readyDisplay = useAppSelector((state) => state.chatroom.state);
+
   useEffect(() => {
     socket.on('message', (data) => {
-      console.log(data, 'data');
       dispatch(welcomeMessage(data.message));
-      //   setwelcomeMsg(data);
+    });
+    socket.on('joinedRoomMessage', (data) => {
+      dispatch(userJoinedMessage([data.user, data.message]));
+    });
+    socket.on('onReady', (data) => {
+      dispatch(ready(data.state));
     });
   }, []);
 
-  let chatRoomDisplay;
-  //   if (chatRoom) {
-  chatRoomDisplay = (
-    <div>
-      hello
-      {/* <p>{welcomeMessage.message}</p> */}
-      {/* <p>
-          {userJoinedMsg
-            ? `${userJoinedMsg?.user} ${userJoinedMsg?.message}`
-            : ''}
-        </p>
+  function onLetsPlay() {
+    socket.emit('letsPlay');
+  }
 
-   */}
+  return (
+    <div>
+      <p>{welocmeMessageDisplay}</p>
+      <p>{userJoinedMessageDisplay}</p>
+      {readyDisplay === true ? (
+        <button onClick={() => onLetsPlay()}>Let's Play</button>
+      ) : (
+        ''
+      )}
     </div>
   );
-  //   }
-  return <div>{chatRoomDisplay}</div>;
 }
 
-export default ChatRoom;
+export default Chatroom;

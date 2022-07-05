@@ -139,7 +139,7 @@ io.on('connection', (socket) => {
           number: `${apiService.createRandomNumber(1999, 9999)}`,
           isFirstNumber: true,
         });
-
+        console.log(result?.data.number);
         // like above nsps seems to be from an older
         // Is this to make the lets play player play first? so when
         if (result?.data?.roomType !== 'cpu') {
@@ -299,21 +299,3 @@ io.on('connection', (socket) => {
     });
   });
 });
-
-// io.on('connection', (socket: Socket) => {
-//   console.log(`${socket.id} just went online`);
-//   socket.on('login', (username) => {
-//     axios
-//       .post(`http://localhost:3004/users`, { username: username })
-//       .then((resp) => {
-//         // console.log(resp);
-//         axios.get(`http://localhost:3004/rooms`).then((resp) => {
-//           socket.emit('send_rooms', resp.data);
-//           console.log(resp.data);
-//         });
-//       })
-//       .catch((error) => {
-//         console.log(error, 'erro');
-//       });
-//   });
-// });

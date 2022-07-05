@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import roomsReducer from '../features/roomsSlice';
-import chatRoomReducer from '../features/chatRoomSlice';
+import chatroomReducer from '../features/chatroomSlice';
+import chatroomMessagesReducer from '../features/chatroomMessagesSlice';
 // ...
 
 export const store = configureStore({
   reducer: {
     rooms: roomsReducer,
-    chatroom: chatRoomReducer,
+    chatroom: chatroomReducer,
+    chatroomMessages: chatroomMessagesReducer,
   },
 });
 

@@ -3,7 +3,8 @@ import io from 'socket.io-client';
 import { useSockets } from '../context/socket.context';
 import usePrevious from './usePrev';
 import RoomList from './RoomList';
-import ChatRoom from './ChatRoom';
+import Chatroom from './Chatroom';
+import ChatroomMessages from './ChatroomMessages';
 
 type Room = {
   id: string;
@@ -13,13 +14,7 @@ type Room = {
   usersInRoom?: number;
 };
 
-type Message = {
-  user: string;
-  message: string;
-  room: string;
-};
-
-type ChatRoomMessage = {
+type ChatroomMessage = {
   number: number;
   selectedNumber: number;
   user: string;
@@ -40,29 +35,24 @@ export default function Rooms() {
     setRooms(data);
   };
 
-  const [chatRoom, setChatRoom] = useState('');
-  const [chatRoomType, setChatRoomType] = useState('');
-  const [welcomeMsg, setwelcomeMsg] = useState<Message>();
-  console.log(welcomeMsg);
-  const [userJoinedMsg, setUserJoinedMsg] = useState<Message>();
+  const [chatroomType, setChatroomType] = useState('');
   const [gameReady, setGameReady] = useState(false);
   const [gameIsActive, setGameIsActive] = useState(false);
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
   const [isFirstNumber, setIsFirstNumber] = useState(false);
   const [turnIsActive, setTurnIsActive] = useState<boolean>(false);
-  // console.log(turnIsActive, ' TURN IS ACTIVE');
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const [isCorrectResult, setIsCorrectResult] = useState();
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState('');
-  const [chatRoomMessages, setChatRoomMessages] = useState<ChatRoomMessage[]>(
+  const [chatroomMessages, setChatroomMessages] = useState<ChatroomMessage[]>(
     []
   );
 
-  const chatRoomMessagesRef = useRef(chatRoomMessages);
-  const setChatRoomMessagesRef = (data: any) => {
-    chatRoomMessagesRef.current = data;
-    setChatRoomMessages(data);
+  const chatroomMessagesRef = useRef(chatroomMessages);
+  const setChatroomMessagesRef = (data: any) => {
+    chatroomMessagesRef.current = data;
+    setChatroomMessages(data);
   };
 
   const gameOverRef = useRef<boolean>(gameOver);
@@ -70,26 +60,6 @@ export default function Rooms() {
     gameOverRef.current = data;
     setGameOver(data);
   };
-
-  useEffect(() => {
-    if (chatRoom) {
-      socket.on('message', (data) => {
-        setwelcomeMsg(data);
-      });
-    }
-    // not really necesary in this case but just to be sure
-    if (chatRoom && chatRoomType !== 'cpu') {
-      socket.on('joinedRoomMessage', (data) => {
-        setUserJoinedMsg(data);
-      });
-    }
-
-    if (chatRoom) {
-      socket.on('onReady', (data) => {
-        setGameReady(data.state);
-      });
-    }
-  }, [chatRoom]);
 
   useEffect(() => {
     if (gameReady === true) {
@@ -102,7 +72,7 @@ export default function Rooms() {
         let val = false;
         // console.log(data.user, socket.id);
         // if (!data.user) val = true;
-        if (chatRoomType === 'cpu') {
+        if (chatroomType === 'cpu') {
           if (data.user === socket.id && data.state === 'play') val = true;
         } else {
           if (data.user !== socket.id) val = true;
@@ -159,7 +129,7 @@ export default function Rooms() {
 
     if (gameOverRef.current === false) {
       newMessages = [
-        ...chatRoomMessagesRef.current,
+        ...chatroomMessagesRef.current,
         {
           prevNumber: data.prevNumber,
           selectedNumber: data.selectedNumber,
@@ -177,7 +147,7 @@ export default function Rooms() {
       setGameOverRef(false);
     }
 
-    setChatRoomMessagesRef(newMessages);
+    setChatroomMessagesRef(newMessages);
     setRandomNumber(parseInt(data.number));
     setIsFirstNumber(data.isFirstNumber);
     setIsCorrectResult(data.isCorrectResult);
@@ -190,15 +160,6 @@ export default function Rooms() {
     }
   }
 
-  // after letplay is clicked it shouldnt be visible
-
-  let letsPlayButtonDisplay;
-  if (gameIsActive === false && randomNumber === null) {
-    letsPlayButtonDisplay = (
-      <button onClick={() => onLetsPlay()}>Let's Play</button>
-    );
-  }
-
   let replayButton;
   if (gameOver === true) {
     replayButton = (
@@ -209,68 +170,63 @@ export default function Rooms() {
       </div>
     );
   }
-  let chatRoomMessagesDisplay = chatRoomMessages.map((m) => {
-    return (
-      <div>
-        <ul>
-          {m.user}
-          {m.prevNumber ? (
-            <ul>
-              <li>{m.selectedNumber}</li>
-              <li>
-                [{m.selectedNumber}+{m.prevNumber}/3] = {m.number}
-              </li>
-            </ul>
-          ) : (
-            ''
-          )}
-          <li>{m.number}</li>
-        </ul>
-      </div>
-    );
-  });
+  // let chatRoomMessagesDisplay = chatRoomMessages.map((m) => {
+  //   return (
+  //     <div>
+  //       <ul>
+  //         {m.user}
+  //         {m.prevNumber ? (
+  //           <ul>
+  //             <li>{m.selectedNumber}</li>
+  //             <li>
+  //               [{m.selectedNumber}+{m.prevNumber}/3] = {m.number}
+  //             </li>
+  //           </ul>
+  //         ) : (
+  //           ''
+  //         )}
+  //         <li>{m.number}</li>
+  //       </ul>
+  //     </div>
+  //   );
+  // });
 
-  let chatRoomDisplay;
-  if (chatRoom) {
-    chatRoomDisplay = (
-      <div>
-        <p>{welcomeMsg ? welcomeMsg.message : ''}</p>
-        <p>
-          {userJoinedMsg
-            ? `${userJoinedMsg?.user} ${userJoinedMsg?.message}`
-            : ''}
-        </p>
-        <hr />
-        {chatRoomMessagesDisplay}
-        <hr />
-        <p>{randomNumber ? randomNumber : ''}</p>
-        {letsPlayButtonDisplay}
-        {turnIsActive === true && gameOver === false ? (
-          <div>
-            <button onClick={() => onSendNumber(-1)} value='-1'>
-              -1
-            </button>
-            <button onClick={() => onSendNumber(0)} value='0'>
-              0
-            </button>
-            <button onClick={() => onSendNumber(+1)} value='+1'>
-              +1
-            </button>
-          </div>
-        ) : (
-          ''
-        )}
-      </div>
-    );
-  }
+  // let chatRoomDisplay;
+  // if (chatRoom) {
+  //   chatRoomDisplay = (
+  //     <div>
+  //       <hr />
+  //       {chatRoomMessagesDisplay}
+  //       <hr />
+  //       <p>{randomNumber ? randomNumber : ''}</p>
+  //       {letsPlayButtonDisplay}
+  //       {turnIsActive === true && gameOver === false ? (
+  //         <div>
+  //           <button onClick={() => onSendNumber(-1)} value='-1'>
+  //             -1
+  //           </button>
+  //           <button onClick={() => onSendNumber(0)} value='0'>
+  //             0
+  //           </button>
+  //           <button onClick={() => onSendNumber(+1)} value='+1'>
+  //             +1
+  //           </button>
+  //         </div>
+  //       ) : (
+  //         ''
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
       <p>Rooms</p>
       <RoomList />
       <hr />
-      <ChatRoom />
-      {chatRoomDisplay}
+      <Chatroom />
+      <ChatroomMessages />
+      {/* {chatRoomDisplay} */}
       {replayButton}
     </div>
   );

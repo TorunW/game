@@ -12,8 +12,8 @@ export type RoomType = {
 // Define a type for the slice state
 interface RoomState {
   rooms: RoomType[];
-  chatRoom: string;
-  chatRoomType: string;
+  chatroom: string;
+  chatroomType: string;
   // roomType: string;
   //   value:
 }
@@ -21,8 +21,8 @@ interface RoomState {
 // Define the initial state using that type
 const initialState: RoomState = {
   rooms: [],
-  chatRoom: '',
-  chatRoomType: '',
+  chatroom: '',
+  chatroomType: '',
 };
 
 export const roomsSlice = createSlice({
@@ -30,12 +30,12 @@ export const roomsSlice = createSlice({
   initialState,
   reducers: {
     joinRoom: (state, action) => {
-      state.chatRoom = action.payload.chatRoom;
-      state.chatRoomType = action.payload.chatRoomType;
+      state.chatroom = action.payload.chatroom;
+      state.chatroomType = action.payload.chatroomType;
     },
     leaveRoom: (state) => {
-      state.chatRoom = '';
-      state.chatRoomType = '';
+      state.chatroom = '';
+      state.chatroomType = '';
     },
     setRooms: (state, action: PayloadAction<RoomType[]>) => {
       state.rooms = action.payload;

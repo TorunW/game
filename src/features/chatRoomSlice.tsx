@@ -1,50 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import type { RootState } from '../../app/store'
 
-export type Messages = {
-  user: string;
-  message: string;
-  room: string;
-};
-
-// Define a type for the slice state
-interface ChatRoomState {
-  //   messages: Messages[];
+interface ChatroomState {
   user: string;
   message: string;
   room: object;
+  state: boolean;
 }
 
-// Define the initial state using that type
-const initialState: ChatRoomState = {
-  //   messages: [],
+const initialState: ChatroomState = {
   user: '',
   message: '',
   room: {},
+  state: false,
 };
 
-export const chatRoomSlice = createSlice({
-  name: 'chatRoom',
+export const chatroomSlice = createSlice({
+  name: 'chatroom',
   initialState,
   reducers: {
     welcomeMessage: (state, action) => {
-      state.message = action.payload.message;
-      console.log(action, 'action');
+      state.message = action.payload;
     },
-    //     userJoinedMessage: (state) => {
-    //     },
-    //     letsPlay: (state, action: PayloadAction<RoomType[]>) => {
-    //     },
-    //     updateRoomCount: (state, action) => {
-    //     //   const roomIndex = state.rooms.findIndex(
-    //     //     (room) => room.id === action.payload.room.id
-    //     //   );
-
-    //     //   state.rooms[roomIndex].usersInRoom = action.payload.usersInRoom;
-    //     // },
+    userJoinedMessage: (state, action) => {
+      state.message = action.payload;
+    },
+    ready: (state, action) => {
+      state.state = action.payload;
+    },
   },
 });
 
-export const { welcomeMessage } = chatRoomSlice.actions;
+export const { welcomeMessage, userJoinedMessage, ready } =
+  chatroomSlice.actions;
 
-export default chatRoomSlice.reducer;
+export default chatroomSlice.reducer;
