@@ -35,14 +35,8 @@ export default function Rooms() {
     setRooms(data);
   };
 
-  const [chatroomType, setChatroomType] = useState('');
-  const [gameReady, setGameReady] = useState(false);
   const [gameIsActive, setGameIsActive] = useState(false);
-  const [randomNumber, setRandomNumber] = useState<number | null>(null);
-  const [isFirstNumber, setIsFirstNumber] = useState(false);
-  const [turnIsActive, setTurnIsActive] = useState<boolean>(false);
-  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
-  const [isCorrectResult, setIsCorrectResult] = useState();
+
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState('');
   const [chatroomMessages, setChatroomMessages] = useState<ChatroomMessage[]>(
@@ -61,44 +55,44 @@ export default function Rooms() {
     setGameOver(data);
   };
 
-  useEffect(() => {
-    if (gameReady === true) {
-      socket.on('randomNumber', (data) => {
-        onReciveNumber(data);
-      });
+  // useEffect(() => {
+  //   if (gameReady === true) {
+  //     socket.on('randomNumber', (data) => {
+  //       onReciveNumber(data);
+  //     });
 
-      socket.on('activateYourTurn', (data) => {
-        // console.log(data.state);
-        let val = false;
-        // console.log(data.user, socket.id);
-        // if (!data.user) val = true;
-        if (chatroomType === 'cpu') {
-          if (data.user === socket.id && data.state === 'play') val = true;
-        } else {
-          if (data.user !== socket.id) val = true;
-        }
-        // console.log(val, ' VAL ON ACTIVATE YOUR TURN');
-        setTurnIsActive(val);
-      });
-    }
+  //     socket.on('activateYourTurn', (data) => {
+  //       // console.log(data.state);
+  //       let val = false;
+  //       // console.log(data.user, socket.id);
+  //       // if (!data.user) val = true;
+  //       if (chatroomType === 'cpu') {
+  //         if (data.user === socket.id && data.state === 'play') val = true;
+  //       } else {
+  //         if (data.user !== socket.id) val = true;
+  //       }
+  //       // console.log(val, ' VAL ON ACTIVATE YOUR TURN');
+  //       setTurnIsActive(val);
+  //     });
+  //   }
 
-    socket.on('gameOver', (data) => {
-      // onGameOver(data);
-      setGameOver(true);
-      setGameOverRef(true);
-      setWinner(data.user);
-    });
-  }, [gameReady]);
+  //   socket.on('gameOver', (data) => {
+  //     // onGameOver(data);
+  //     setGameOver(true);
+  //     setGameOverRef(true);
+  //     setWinner(data.user);
+  //   });
+  // }, [gameReady]);
 
-  useEffect(() => {
-    if (selectedNumber !== null) {
-      socket.emit('sendNumber', {
-        randomNumber,
-        selectedNumber,
-      });
-      setSelectedNumber(null);
-    }
-  }, [selectedNumber]);
+  // useEffect(() => {
+  //   if (selectedNumber !== null) {
+  //     socket.emit('sendNumber', {
+  //       randomNumber,
+  //       selectedNumber,
+  //     });
+  //     setSelectedNumber(null);
+  //   }
+  // }, [selectedNumber]);
 
   function onLetsPlay() {
     socket.emit('letsPlay');
@@ -110,55 +104,49 @@ export default function Rooms() {
     onLetsPlay();
   }
 
-  function onSendNumber(value: number) {
-    // console.log(value, ' VALUE ON SEND NUMBER');
-    setTurnIsActive(false);
-    setSelectedNumber(value);
-  }
+  // function onReciveNumber(data: any) {
+  //   // console.log(data, ' ON RECIEVE NUMBER ');
 
-  function onReciveNumber(data: any) {
-    // console.log(data, ' ON RECIEVE NUMBER ');
+  //   let newMessages: {
+  //     prevNumber: any;
+  //     selectedNumber: any;
+  //     user: any;
+  //     number: any;
+  //     isCorrectResult: any;
+  //   }[] = [];
 
-    let newMessages: {
-      prevNumber: any;
-      selectedNumber: any;
-      user: any;
-      number: any;
-      isCorrectResult: any;
-    }[] = [];
+  //   if (gameOverRef.current === false) {
+  //     newMessages = [
+  //       ...chatroomMessagesRef.current,
+  //       {
+  //         prevNumber: data.prevNumber,
+  //         selectedNumber: data.selectedNumber,
+  //         user: data.user,
+  //         number: data.number,
+  //         isCorrectResult: data.isCorrectResult,
+  //       },
+  //     ];
+  //   } else {
+  //     setRandomNumber(null);
+  //     setGameIsActive(false);
+  //     setWinner('');
+  //     setTurnIsActive(false);
+  //     setGameOver(false);
+  //     setGameOverRef(false);
+  //   }
 
-    if (gameOverRef.current === false) {
-      newMessages = [
-        ...chatroomMessagesRef.current,
-        {
-          prevNumber: data.prevNumber,
-          selectedNumber: data.selectedNumber,
-          user: data.user,
-          number: data.number,
-          isCorrectResult: data.isCorrectResult,
-        },
-      ];
-    } else {
-      setRandomNumber(null);
-      setGameIsActive(false);
-      setWinner('');
-      setTurnIsActive(false);
-      setGameOver(false);
-      setGameOverRef(false);
-    }
+  //   setChatroomMessagesRef(newMessages);
+  //   setRandomNumber(parseInt(data.number));
+  //   setIsFirstNumber(data.isFirstNumber);
+  //   setIsCorrectResult(data.isCorrectResult);
 
-    setChatroomMessagesRef(newMessages);
-    setRandomNumber(parseInt(data.number));
-    setIsFirstNumber(data.isFirstNumber);
-    setIsCorrectResult(data.isCorrectResult);
-
-    // if correct anser is false then the data.user is loser
-    if (data.isCorrectResult === false) {
-      setGameOver(true);
-      setGameOverRef(true);
-      setWinner(data.user !== username ? username : '');
-    }
-  }
+  //   // if correct anser is false then the data.user is loser
+  //   if (data.isCorrectResult === false) {
+  //     setGameOver(true);
+  //     setGameOverRef(true);
+  //     setWinner(data.user !== username ? username : '');
+  //   }
+  // }
 
   let replayButton;
   if (gameOver === true) {

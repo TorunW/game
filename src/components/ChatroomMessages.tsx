@@ -15,16 +15,12 @@ function ChatroomMessages() {
   //   (state) => state.chatroomMessages
   // );
   const chatroomType = useAppSelector((state) => state.rooms.chatroomType);
-  const selectedNumber = useAppSelector(
-    (state) => state.chatroomMessages.selectedNumber
-  );
+  // const selectedNumber = useAppSelector(
+  //   (state) => state.chatroomMessages.selectedNumber
+  // );
   const messages = useAppSelector((state) => state.chatroomMessages.messages);
-  console.log(messages, 'messages');
-  // const chatroomMessagesRef = useRef(messages);
-  // const setChatroomMessagesRef = (data: any) => {
-  //   chatroomMessagesRef.current = data;
-  //   dispatch(setMessages(data));
-  // };
+  const activeTurn = useAppSelector((state) => state.chatroomMessages.turn);
+  console.log(activeTurn, 'turn');
 
   useEffect(() => {
     socket.on('randomNumber', (data) => {
@@ -41,27 +37,28 @@ function ChatroomMessages() {
   }, []);
 
   useEffect(() => {
-    socket.on('activateYourTurn', (data) => {
-      let val = false;
-      if (chatroomType === 'cpu') {
-        if (data.user === socket.id && data.state === 'play') val = true;
-      } else {
-        if (data.user !== socket.id) val = true;
-      }
-      dispatch(setTurnIsActive(val));
-    });
+    if (chatroomType) {
+      socket.on('activateYourTurn', (data) => {
+        let val = false;
+        if (chatroomType === 'cpu') {
+          if (data.user === socket.id && data.state === 'play') val = true;
+        } else {
+          if (data.user !== socket.id) val = true;
+        }
+        dispatch(setTurnIsActive(val));
+      });
+    }
   }, [chatroomType]);
-
-  useEffect(() => {
-    let lastMessage = messages[messages.length - 1];
-    socket.emit('sendNumber', {
-      lastMessage,
-    });
-  }, [selectedNumber]);
 
   function onSendNumber(value: number) {
     // setTurnIsActive(false);
     dispatch(setSelectedNumber(value));
+
+    const lastMessage = messages[messages.length - 1];
+    socket.emit('sendNumber', {
+      randomNumber: lastMessage.number,
+      selectedNumber: value,
+    });
   }
 
   // function onReciveNumber(data: any) {
@@ -108,44 +105,48 @@ function ChatroomMessages() {
   //   }
   // }
 
-  //   let chatroomMessagesDisplay = chatroomMessages.map((m) => {
-  //     return (
-  //       <div>
-  //         <ul>
-  //           {m.user}
-  //           {m.prevNumber ? (
-  //             <ul>
-  //               <li>{m.selectedNumber}</li>
-  //               <li>
-  //                 [{m.selectedNumber}+{m.prevNumber}/3] = {m.number}
-  //               </li>
-  //             </ul>
-  //           ) : (
-  //             ''
-  //           )}
-  //           <li>{m.number}</li>
-  //         </ul>
-  //       </div>
-  //     );
-  //   });
+  let chatroomMessagesDisplay = messages.map((m) => {
+    return (
+      <div>
+        <ul>
+          {m.user}
+          {m.prevNumber ? (
+            <ul>
+              <li>{m.selectedNumber}</li>
+              <li>
+                [{m.selectedNumber}+{m.prevNumber}/3] = {m.number}
+              </li>
+            </ul>
+          ) : (
+            ''
+          )}
+          <li>{m.number}</li>
+        </ul>
+      </div>
+    );
+  });
 
   let chatDisplay = (
     <div>
       <hr />
-      {/* {chatroomMessagesDisplay} */}
+      {chatroomMessagesDisplay}
       <hr />
-      {/* <p>{sendRandomNumberDisplay}</p> */}
-      <div>
-        <button onClick={() => onSendNumber(-1)} value='-1'>
-          -1
-        </button>
-        <button onClick={() => onSendNumber(0)} value='0'>
-          0
-        </button>
-        <button onClick={() => onSendNumber(+1)} value='+1'>
-          +1
-        </button>
-      </div>
+      {/* <p>{lastMessage.prevNumber}</p> */}
+      {activeTurn === true ? (
+        <div>
+          <button onClick={() => onSendNumber(-1)} value='-1'>
+            -1
+          </button>
+          <button onClick={() => onSendNumber(0)} value='0'>
+            0
+          </button>
+          <button onClick={() => onSendNumber(+1)} value='+1'>
+            +1
+          </button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 

@@ -13,7 +13,7 @@
       "type": "cpu"
     },
     {
-      "id": "aa0c86fa",
+      "id": "bb0c86fa",
       "name": "Room Amsterdam",
       "owner": "lqcflVIEANZWYkmAAADD",
       "type": "human"
@@ -21,10 +21,16 @@
   ],
   "users": [
     {
-      "id": "dpe7gHCJJJtXGOpmAABB",
-      "name": "hh",
-      "room": "d2726a4a",
-      "roomType": "cpu"
+      "id": "j4do_RkBGOxGuswJAACF",
+      "name": "ggg",
+      "room": "bb0c86fa",
+      "roomType": "human"
+    },
+    {
+      "id": "KZxkwoW3vluCelvZAACD",
+      "name": "kkkk",
+      "room": "bb0c86fa",
+      "roomType": "human"
     }
   ]
 }
