@@ -53,9 +53,9 @@ function ChatroomMessages() {
   }, [chatroomType]);
 
   useEffect(() => {
-    let lastMessage;
+    let lastMessage = messages[messages.length - 1];
     socket.emit('sendNumber', {
-      lastMessage = messages[messages.length - 1],
+      lastMessage,
     });
   }, [selectedNumber]);
 
