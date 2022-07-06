@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type ChatroomMessagesType = {
   number?: number;
-  selectedNumber: number | undefined;
+  selectedNumber?: number;
   user: string;
-  prevNumber: number | undefined;
-  isCorrectResult: number | undefined;
+  prevNumber?: number;
+  isCorrectResult?: number;
 };
 
 // Define a type for the slice state
@@ -14,6 +14,7 @@ interface ChatroomMessagesState {
   selectedNumber?: number;
   turn: boolean;
   isFirstNumber?: boolean;
+  gameOver: boolean;
 }
 
 // Define the initial state using that type
@@ -22,6 +23,7 @@ const initialState: ChatroomMessagesState = {
   selectedNumber: undefined,
   turn: false,
   isFirstNumber: false,
+  gameOver: false,
 };
 
 export const chatroomMessagesSlice = createSlice({
@@ -38,11 +40,16 @@ export const chatroomMessagesSlice = createSlice({
       state.selectedNumber = action.payload;
     },
     addMessage: (state, action) => {
-      state.messages.push(action.payload);
-      const duplicateMessage = state.messages.find(
+      const duplicateMessage = state.messages.findIndex(
         (msg) => msg.number === action.payload.number
       );
-      console.log(duplicateMessage, 'find number');
+      if (action.payload.isCorrectResult !== false) {
+        if (duplicateMessage === -1) state.messages.push(action.payload);
+        action.payload.gameOver = false;
+      } else if (action.payload.isCorrectResult === false) {
+        action.payload.gameOver = true;
+      }
+      console.log(action.payload.gameOver, 'gameover');
     },
   },
 });

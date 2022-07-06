@@ -136,7 +136,7 @@ io.on('connection', (socket) => {
       .getUserDetail(socket.id)
       .then((result) => {
         io.to(result?.data.room).emit('randomNumber', {
-          number: `${apiService.createRandomNumber(1999, 9999)}`,
+          number: `${apiService.createRandomNumber(900, 900)}`,
           isFirstNumber: true,
         });
         console.log(result?.data.number);

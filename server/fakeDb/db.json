@@ -21,8 +21,14 @@
   ],
   "users": [
     {
-      "id": "Nuub_MQbPbrAydn5AABj",
-      "name": "ghjk",
+      "id": "f0DSDztlfAr1KXbVAAAL",
+      "name": "rthg",
+      "room": "bb0c86fa",
+      "roomType": "human"
+    },
+    {
+      "id": "q43oEcqjoj6hgx_oAAAV",
+      "name": "fghj",
       "room": "d2726a4a",
       "roomType": "cpu"
     }

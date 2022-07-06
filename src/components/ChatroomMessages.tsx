@@ -8,6 +8,7 @@ import {
 } from '../features/chatroomMessagesSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { disconnect } from 'process';
+import { displayPartsToString } from 'typescript';
 
 function ChatroomMessages() {
   const { socket, username } = useSockets();
@@ -15,10 +16,8 @@ function ChatroomMessages() {
   const chatroomType = useAppSelector((state) => state.rooms.chatroomType);
   const messages = useAppSelector((state) => state.chatroomMessages.messages);
   const activeTurn = useAppSelector((state) => state.chatroomMessages.turn);
-  const isFirstNumber = useAppSelector(
-    (state) => state.chatroomMessages.isFirstNumber
-  );
-  console.log(messages, 'oooo');
+  const gameOver = useAppSelector((state) => state.chatroomMessages.gameOver);
+  console.log(gameOver, 'game client');
 
   useEffect(() => {
     socket.on('randomNumber', (data) => {
@@ -62,14 +61,6 @@ function ChatroomMessages() {
 
   // function onReciveNumber(data: any) {
   //   // console.log(data, ' ON RECIEVE NUMBER ');
-
-  //   let newMessages: {
-  //     prevNumber: any;
-  //     selectedNumber: any;
-  //     user: any;
-  //     number: any;
-  //     isCorrectResult: any;
-  //   }[] = [];
 
   //   // if (gameOverRef.current === false) {
   //   //   newMessages = [
