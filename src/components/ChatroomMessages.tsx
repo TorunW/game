@@ -14,32 +14,31 @@ function ChatroomMessages() {
     (state) => state.chatroomMessages.number
   );
   const chatroomType = useAppSelector((state) => state.rooms.chatroomType);
-  console.log(chatroomType);
+  const messages = useAppSelector((state) => state);
+  console.log(messages);
 
   useEffect(() => {
     socket.on('randomNumber', (data) => {
       dispatch(sendRandomNumber(data.number));
       //   onReciveNumber(data)
     });
+  }, []);
 
+  useEffect(() => {
     socket.on('activateYourTurn', (data) => {
-      console.log(data);
-      console.log(socket.id);
       let val = false;
       if (chatroomType === 'cpu') {
         if (data.user === socket.id && data.state === 'play') val = true;
       } else {
         if (data.user !== socket.id) val = true;
       }
-      console.log(val, ' VAL ON ACTIVATE YOUR TURN');
       dispatch(setTurnIsActive(val));
     });
-  }, []);
+  }, [chatroomType]);
 
   function onSendNumber(value: number) {
     // setTurnIsActive(false);
     dispatch(setSelectedNumber(value));
-    console.log(value);
   }
 
   //   function onReciveNumber(data: any) {
@@ -86,32 +85,32 @@ function ChatroomMessages() {
   //     }
   //   }
 
-  // let chatroomMessagesDisplay = chatroomMessages.map((m) => {
-  //   return (
-  //     <div>
-  //       <ul>
-  //         {m.user}
-  //         {m.prevNumber ? (
-  //           <ul>
-  //             <li>{m.selectedNumber}</li>
-  //             <li>
-  //               [{m.selectedNumber}+{m.prevNumber}/3] = {m.number}
-  //             </li>
-  //           </ul>
-  //         ) : (
-  //           ''
-  //         )}
-  //         <li>{m.number}</li>
-  //       </ul>
-  //     </div>
-  //   );
-  // });
+  //   let chatroomMessagesDisplay = chatroomMessages.map((m) => {
+  //     return (
+  //       <div>
+  //         <ul>
+  //           {m.user}
+  //           {m.prevNumber ? (
+  //             <ul>
+  //               <li>{m.selectedNumber}</li>
+  //               <li>
+  //                 [{m.selectedNumber}+{m.prevNumber}/3] = {m.number}
+  //               </li>
+  //             </ul>
+  //           ) : (
+  //             ''
+  //           )}
+  //           <li>{m.number}</li>
+  //         </ul>
+  //       </div>
+  //     );
+  //   });
 
   let chatDisplay = (
     <div>
-      {/* <hr />
-          {chatroomMessagesDisplay}
-          <hr /> */}
+      <hr />
+      {/* {chatroomMessagesDisplay} */}
+      <hr />
       <p>{sendRandomNumberDisplay}</p>
       <div>
         <button onClick={() => onSendNumber(-1)} value='-1'>

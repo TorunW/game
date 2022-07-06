@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Define a type for the slice state
-interface ChatroomMessagesState {
+export type ChatroomMessagesType[] {
   number: number | undefined;
   selectedNumber: number | undefined;
   user: string;
@@ -9,13 +8,14 @@ interface ChatroomMessagesState {
   isCorrectResult: number | undefined;
 }
 
+// Define a type for the slice state
+interface ChatroomMessagesState {
+message: ChatroomMessagesType[]
+}
+
 // Define the initial state using that type
 const initialState: ChatroomMessagesState = {
-  number: undefined,
-  selectedNumber: undefined,
-  user: '',
-  prevNumber: undefined,
-  isCorrectResult: undefined,
+message: []
 };
 
 export const chatroomMessagesSlice = createSlice({
