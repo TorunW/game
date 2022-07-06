@@ -11,11 +11,15 @@ export type ChatroomMessagesType = {
 // Define a type for the slice state
 interface ChatroomMessagesState {
   messages: ChatroomMessagesType[];
+  selectedNumber: number | undefined;
+  turn: boolean;
 }
 
 // Define the initial state using that type
 const initialState: ChatroomMessagesState = {
   messages: [],
+  selectedNumber: undefined,
+  turn: false,
 };
 
 export const chatroomMessagesSlice = createSlice({
@@ -26,10 +30,10 @@ export const chatroomMessagesSlice = createSlice({
       state.messages = action.payload;
     },
     setTurnIsActive: (state, action) => {
-      state.messages = action.payload;
+      state.turn = action.payload;
     },
     setSelectedNumber: (state, action) => {
-      state.messages = action.payload;
+      state.selectedNumber = action.payload;
     },
     addMessage: (state, action) => {
       state.messages.push(action.payload);

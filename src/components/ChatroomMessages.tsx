@@ -15,9 +15,11 @@ function ChatroomMessages() {
   //   (state) => state.chatroomMessages
   // );
   const chatroomType = useAppSelector((state) => state.rooms.chatroomType);
-  const messages = useAppSelector((state) => state.chatroomMessages);
-  // console.log(messages);
-
+  const selectedNumber = useAppSelector(
+    (state) => state.chatroomMessages.selectedNumber
+  );
+  const messages = useAppSelector((state) => state.chatroomMessages.messages);
+  console.log(messages, 'messages');
   // const chatroomMessagesRef = useRef(messages);
   // const setChatroomMessagesRef = (data: any) => {
   //   chatroomMessagesRef.current = data;
@@ -35,7 +37,6 @@ function ChatroomMessages() {
           isCorrectResult: data.isCorrectResult,
         })
       );
-      //   onReciveNumber(data)
     });
   }, []);
 
@@ -51,9 +52,16 @@ function ChatroomMessages() {
     });
   }, [chatroomType]);
 
+  useEffect(() => {
+    let lastMessage;
+    socket.emit('sendNumber', {
+      lastMessage = messages[messages.length - 1],
+    });
+  }, [selectedNumber]);
+
   function onSendNumber(value: number) {
     // setTurnIsActive(false);
-    dispatch(addMessage({ selectedNumber: value }));
+    dispatch(setSelectedNumber(value));
   }
 
   // function onReciveNumber(data: any) {
