@@ -140,6 +140,8 @@ io.on('connection', (socket) => {
           isFirstNumber: true,
         });
         console.log(result?.data.number);
+        console.log(result?.data.isFirstNumber);
+
         // like above nsps seems to be from an older
         // Is this to make the lets play player play first? so when
         if (result?.data?.roomType !== 'cpu') {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type ChatroomMessagesType = {
-  number: number | undefined;
+  number?: number;
   selectedNumber: number | undefined;
   user: string;
   prevNumber: number | undefined;
@@ -11,8 +11,9 @@ export type ChatroomMessagesType = {
 // Define a type for the slice state
 interface ChatroomMessagesState {
   messages: ChatroomMessagesType[];
-  selectedNumber: number | undefined;
+  selectedNumber?: number;
   turn: boolean;
+  isFirstNumber?: boolean;
 }
 
 // Define the initial state using that type
@@ -20,14 +21,15 @@ const initialState: ChatroomMessagesState = {
   messages: [],
   selectedNumber: undefined,
   turn: false,
+  isFirstNumber: false,
 };
 
 export const chatroomMessagesSlice = createSlice({
   name: 'chatroomMessages',
   initialState,
   reducers: {
-    sendRandomNumber: (state, action) => {
-      state.messages = action.payload;
+    sendFirstNumber: (state, action) => {
+      state.isFirstNumber = action.payload;
     },
     setTurnIsActive: (state, action) => {
       state.turn = action.payload;
@@ -43,7 +45,7 @@ export const chatroomMessagesSlice = createSlice({
 });
 
 export const {
-  sendRandomNumber,
+  sendFirstNumber,
   setTurnIsActive,
   setSelectedNumber,
   addMessage,

@@ -1,29 +1,27 @@
 import React, { useEffect, useRef } from 'react';
 import { useSockets } from '../context/socket.context';
 import {
-  sendRandomNumber,
+  sendFirstNumber,
   setTurnIsActive,
   setSelectedNumber,
   addMessage,
 } from '../features/chatroomMessagesSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { disconnect } from 'process';
 
 function ChatroomMessages() {
   const { socket, username } = useSockets();
   const dispatch = useAppDispatch();
-  // const sendRandomNumberDisplay = useAppSelector(
-  //   (state) => state.chatroomMessages
-  // );
   const chatroomType = useAppSelector((state) => state.rooms.chatroomType);
-  // const selectedNumber = useAppSelector(
-  //   (state) => state.chatroomMessages.selectedNumber
-  // );
   const messages = useAppSelector((state) => state.chatroomMessages.messages);
   const activeTurn = useAppSelector((state) => state.chatroomMessages.turn);
-  console.log(activeTurn, 'turn');
-
+  const isFirstNumber = useAppSelector(
+    (state) => state.chatroomMessages.isFirstNumber
+  );
+  console.log(isFirstNumber, 'oooo');
   useEffect(() => {
     socket.on('randomNumber', (data) => {
+      dispatch(sendFirstNumber(data.isFirstNumber));
       dispatch(
         addMessage({
           prevNumber: data.number,
