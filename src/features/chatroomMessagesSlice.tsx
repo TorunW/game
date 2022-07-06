@@ -39,7 +39,10 @@ export const chatroomMessagesSlice = createSlice({
     },
     addMessage: (state, action) => {
       state.messages.push(action.payload);
-      console.log(action.payload, 'payload');
+      const duplicateMessage = state.messages.find(
+        (msg) => msg.number === action.payload.number
+      );
+      console.log(duplicateMessage, 'find number');
     },
   },
 });

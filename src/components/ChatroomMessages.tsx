@@ -18,7 +18,8 @@ function ChatroomMessages() {
   const isFirstNumber = useAppSelector(
     (state) => state.chatroomMessages.isFirstNumber
   );
-  console.log(isFirstNumber, 'oooo');
+  console.log(messages, 'oooo');
+
   useEffect(() => {
     socket.on('randomNumber', (data) => {
       dispatch(sendFirstNumber(data.isFirstNumber));

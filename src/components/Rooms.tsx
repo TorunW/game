@@ -94,14 +94,14 @@ export default function Rooms() {
   //   }
   // }, [selectedNumber]);
 
-  function onLetsPlay() {
-    socket.emit('letsPlay');
-    setGameIsActive(true);
-  }
+  // function onLetsPlay() {
+  //   socket.emit('letsPlay');
+  //   setGameIsActive(true);
+  // }
 
   // console.log(gameOverRef);
   function onReplay() {
-    onLetsPlay();
+    // onLetsPlay();
   }
 
   // function onReciveNumber(data: any) {

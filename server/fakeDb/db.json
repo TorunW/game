@@ -21,28 +21,10 @@
   ],
   "users": [
     {
-      "id": "v5LSUoT1kK8daPBkAACV",
-      "name": "k",
-      "room": "bb0c86fa",
-      "roomType": "human"
-    },
-    {
-      "id": "gEtayEf5k3P7gjHKAACT",
-      "name": "hjklö",
-      "room": "bb0c86fa",
-      "roomType": "human"
-    },
-    {
-      "id": "aomie1JzkCn_Ol_1AAAj",
-      "name": "dfg",
-      "room": "bb0c86fa",
-      "roomType": "human"
-    },
-    {
-      "id": "HnlLOVgABkGLLeXnAAAh",
-      "name": "sdv",
-      "room": "bb0c86fa",
-      "roomType": "human"
+      "id": "Nuub_MQbPbrAydn5AABj",
+      "name": "ghjk",
+      "room": "d2726a4a",
+      "roomType": "cpu"
     }
   ]
 }
