@@ -41,7 +41,6 @@ function RoomList() {
   }
 
   function onJoinRoom(room: RoomType) {
-    console.log(room, 'rum');
     socket.emit('joinRoom', {
       username,
       room,

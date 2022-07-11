@@ -22,12 +22,10 @@ function Chatroom() {
   const gameIsActive = useAppSelector((state) => state.chatroom.gameIsActive);
   const gameOver = useAppSelector((state) => state.chatroomMessages.gameOver);
   const username = useAppSelector((state) => state.users.username);
-  console.log(username, 'usernamechat');
 
   useEffect(() => {
     socket.on('message', (data) => {
       dispatch(welcomeMessage(data.message));
-      console.log(data.user === username ? 'ok' : 'näe');
     });
     socket.on('joinedRoomMessage', (data) => {
       dispatch(userJoinedMessage([data.user, data.message]));

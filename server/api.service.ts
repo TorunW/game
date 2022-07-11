@@ -64,7 +64,6 @@ class APIService {
           roomType,
         })
         .catch();
-      console.log(uid);
       return assingUser;
     } catch (error) {}
   }

@@ -160,6 +160,7 @@ io.on('connection', (socket) => {
 
   /* Send Calculated number back with Divisible control */
   socket.on('sendNumber', ({ randomNumber, selectedNumber }) => {
+    console.log(randomNumber, 'RANDO');
     apiService.getUserDetail(socket.id).then((result) => {
       const numbers = [selectedNumber, randomNumber];
       const sumValues = (numbers: number[]) => {

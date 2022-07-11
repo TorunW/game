@@ -18,11 +18,10 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.username = action.payload;
+      state.username = action.payload.username;
     },
     loginMessage: (state, action) => {
       state.message = action.payload;
-      console.log(action.payload, 'action');
     },
   },
 });

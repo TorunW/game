@@ -21,16 +21,11 @@
   ],
   "users": [
     {
-      "id": "4wWqRhxJraFYw7zgAAAr",
-      "name": "sv",
-      "room": "bb0c86fa",
-      "uid": "4wWqRhxJraFYw7zgAAAr",
-      "roomType": "human"
-    },
-    {
-      "id": "iBMp2y1gMpDroH7fAAAp",
-      "name": "jnhbgv",
-      "room": ""
+      "id": "aen0mPRWp17p0wlEAAAJ",
+      "name": "gfg",
+      "room": "d2726a4a",
+      "uid": "aen0mPRWp17p0wlEAAAJ",
+      "roomType": "cpu"
     }
   ]
 }

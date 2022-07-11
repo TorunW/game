@@ -15,6 +15,7 @@ interface ChatroomMessagesState {
   selectedNumber?: number;
   turnIsActive: boolean;
   isFirstNumber?: boolean;
+  number: number | null;
   gameOver: boolean;
   isWinner: boolean;
 }
@@ -24,6 +25,7 @@ const initialState: ChatroomMessagesState = {
   messages: [],
   selectedNumber: undefined,
   turnIsActive: false,
+  number: null,
   isFirstNumber: false,
   gameOver: false,
   isWinner: false,
@@ -35,6 +37,8 @@ export const chatroomMessagesSlice = createSlice({
   reducers: {
     sendFirstNumber: (state, action) => {
       state.isFirstNumber = action.payload;
+      console.log(action.payload.isFirstNumber);
+      console.log(action.payload.firstNumber);
     },
 
     setTurnIsActive: (state, action) => {
@@ -51,14 +55,11 @@ export const chatroomMessagesSlice = createSlice({
         if (duplicatedMessageIndex === -1) state.messages.push(action.payload);
         state.gameOver = false;
       } else if (action.payload.isCorrectResult === false) {
-        console.log('hello');
         state.gameOver = true;
         if (action.payload.user !== action.payload.currentUser) {
           state.isWinner = true;
-          console.log('iam winner');
         } else {
           state.isWinner = false;
-          console.log('iam loser');
         }
       }
     },

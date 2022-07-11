@@ -28,7 +28,7 @@ function ChatroomMessages() {
 
   useEffect(() => {
     socket.on('randomNumber', (data) => {
-      dispatch(sendFirstNumber(data.isFirstNumber));
+      dispatch(sendFirstNumber(data));
       dispatch(setGameIsActive(true));
 
       dispatch(
@@ -60,7 +60,6 @@ function ChatroomMessages() {
 
   useEffect(() => {
     socket.on('gameOver', (data) => {
-      console.log(data, 'data');
       dispatch(
         setGameOver({
           user: data.user,
@@ -88,14 +87,13 @@ function ChatroomMessages() {
   }
 
   let chatroomMessagesDisplay = messages.map((m) => {
-    console.log(m, 'haha');
     return (
       <div
         className={
           m.user === m.currentUser ? 'user-messages' : 'opponent-messages'
         }
       >
-        {m.user !== 'CPU' && isFirstNumber === false ? (
+        {m.user !== m.currentUser && !isFirstNumber ? (
           <svg
             width='40'
             height='40'
@@ -111,7 +109,7 @@ function ChatroomMessages() {
               fill='white'
             />
           </svg>
-        ) : m.user === 'CPU' && isFirstNumber === false ? (
+        ) : m.user === m.currentUser && !isFirstNumber ? (
           <svg
             width='40'
             height='40'
@@ -141,7 +139,7 @@ function ChatroomMessages() {
         ) : (
           ''
         )}
-        <div>{m.number}</div>
+        <div>{!isFirstNumber ? m.number : ''}</div>
       </div>
     );
   });
