@@ -1,0 +1,47 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 16px 16px;
+  gap: 16px;
+  position: absolute;
+  width: 475px;
+  height: 878px;
+  left: 269px;
+  top: 70px;
+  /* White */
+  background: #ffffff;
+}
+.chat-container .select-number-container {
+  width: 443px;
+  height: 56px;
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+}
+.chat-container .select-number-container .number-1 {
+  left: 105px;
+}
+.chat-container .select-number-container .number0 {
+  left: 193px;
+}
+.chat-container .select-number-container .number1 {
+  left: 281px;
+}
+.chat-container .select-number-container .select-number {
+  cursor: pointer;
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  top: 0px;
+  background: #ffffff;
+  border-radius: 100%;
+  border: none;
+  filter: drop-shadow(0px 3px 3px rgba(29, 33, 55, 0.12)) drop-shadow(0px 3px 4px rgba(29, 33, 55, 0.14)) drop-shadow(0px 1px 8px rgba(29, 33, 55, 0.12));
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: #1574f5;
+}

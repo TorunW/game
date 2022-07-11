@@ -21,16 +21,16 @@
   ],
   "users": [
     {
-      "id": "f0DSDztlfAr1KXbVAAAL",
-      "name": "rthg",
+      "id": "4wWqRhxJraFYw7zgAAAr",
+      "name": "sv",
       "room": "bb0c86fa",
+      "uid": "4wWqRhxJraFYw7zgAAAr",
       "roomType": "human"
     },
     {
-      "id": "q43oEcqjoj6hgx_oAAAV",
-      "name": "fghj",
-      "room": "d2726a4a",
-      "roomType": "cpu"
+      "id": "iBMp2y1gMpDroH7fAAAp",
+      "name": "jnhbgv",
+      "room": ""
     }
   ]
 }

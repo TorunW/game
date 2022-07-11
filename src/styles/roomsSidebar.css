@@ -1,0 +1,49 @@
+.sidebar {
+  position: absolute;
+  height: 18px;
+  left: 24px;
+  top: 90px;
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  /* identical to box height, or 129% */
+  /* Info regular */
+  color: #205a6d;
+}
+.sidebar .sidebar-container {
+  left: 24px;
+  top: 124px;
+}
+.sidebar .sidebar-container .room {
+  width: 229px;
+  height: 64px;
+  background: #ffffff;
+  cursor: pointer;
+}
+.sidebar .sidebar-container .room .room-name {
+  position: absolute;
+  height: 18px;
+  margin: 23px 24px;
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  color: #205a6d;
+}
+.sidebar .sidebar-container .room svg {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: 16px 16px 16px 181px;
+}
+.sidebar .sidebar-container .room .vector {
+  position: absolute;
+  height: 0px;
+  left: 0%;
+  right: 0%;
+  margin-top: 64px;
+  border: 1px solid #d7d7d7;
+}

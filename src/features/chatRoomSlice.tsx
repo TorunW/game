@@ -5,6 +5,7 @@ interface ChatroomState {
   message: string;
   room: object;
   state: boolean;
+  gameIsActive: boolean;
 }
 
 const initialState: ChatroomState = {
@@ -12,6 +13,7 @@ const initialState: ChatroomState = {
   message: '',
   room: {},
   state: false,
+  gameIsActive: false,
 };
 
 export const chatroomSlice = createSlice({
@@ -27,10 +29,13 @@ export const chatroomSlice = createSlice({
     ready: (state, action) => {
       state.state = action.payload;
     },
+    setGameIsActive: (state, action) => {
+      state.gameIsActive = action.payload;
+    },
   },
 });
 
-export const { welcomeMessage, userJoinedMessage, ready } =
+export const { welcomeMessage, userJoinedMessage, ready, setGameIsActive } =
   chatroomSlice.actions;
 
 export default chatroomSlice.reducer;

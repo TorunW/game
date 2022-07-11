@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import roomsReducer from '../features/roomsSlice';
 import chatroomReducer from '../features/chatroomSlice';
 import chatroomMessagesReducer from '../features/chatroomMessagesSlice';
+import usersSlice from '../features/usersSlice';
 // ...
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     rooms: roomsReducer,
     chatroom: chatroomReducer,
     chatroomMessages: chatroomMessagesReducer,
+    users: usersSlice,
   },
 });
 

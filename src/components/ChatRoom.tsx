@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useSockets } from '../context/socket.context';
+import { clearChat } from '../features/chatroomMessagesSlice';
 import {
   welcomeMessage,
   userJoinedMessage,
   ready,
 } from '../features/chatroomSlice';
+import '../styles/chatroom.css';
 
 function Chatroom() {
   const { socket } = useSockets();
@@ -16,11 +18,16 @@ function Chatroom() {
   const userJoinedMessageDisplay = useAppSelector(
     (state) => state.chatroom.user
   );
-  const readyDisplay = useAppSelector((state) => state.chatroom.state);
+  const gameIsReady = useAppSelector((state) => state.chatroom.state);
+  const gameIsActive = useAppSelector((state) => state.chatroom.gameIsActive);
+  const gameOver = useAppSelector((state) => state.chatroomMessages.gameOver);
+  const username = useAppSelector((state) => state.users.username);
+  console.log(username, 'usernamechat');
 
   useEffect(() => {
     socket.on('message', (data) => {
       dispatch(welcomeMessage(data.message));
+      console.log(data.user === username ? 'ok' : 'näe');
     });
     socket.on('joinedRoomMessage', (data) => {
       dispatch(userJoinedMessage([data.user, data.message]));
@@ -34,15 +41,26 @@ function Chatroom() {
     socket.emit('letsPlay');
   }
 
+  function onReplay() {
+    onLetsPlay();
+    dispatch(clearChat());
+  }
+
+  let startGameButtonDisplay;
+  if (gameIsActive === false && gameIsReady === true) {
+    startGameButtonDisplay = (
+      <button onClick={() => onLetsPlay()}>Let's Play</button>
+    );
+  } else if (gameOver === true) {
+    startGameButtonDisplay = (
+      <button onClick={() => onReplay()}>Play again</button>
+    );
+  }
   return (
-    <div>
+    <div className='chatroom'>
       <p>{welocmeMessageDisplay}</p>
       <p>{userJoinedMessageDisplay}</p>
-      {readyDisplay === true ? (
-        <button onClick={() => onLetsPlay()}>Let's Play</button>
-      ) : (
-        ''
-      )}
+      {startGameButtonDisplay}
     </div>
   );
 }

@@ -60,10 +60,11 @@ class APIService {
       const assingUser = await axios
         .patch(`/users/${uid}`, {
           room,
+          uid,
           roomType,
         })
         .catch();
-
+      console.log(uid);
       return assingUser;
     } catch (error) {}
   }

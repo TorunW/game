@@ -1,11 +1,8 @@
 import express from 'express';
 import { createServer } from 'http';
-import { Server, Socket } from 'socket.io';
-import cors from 'cors';
+import { Server } from 'socket.io';
 import config from 'config';
-import axios from 'axios';
 import APIService from './api.service';
-import { clearLine } from 'readline';
 
 // socketIO cannot be used with the new socket.io update
 const port = config.get<number>('port');
@@ -88,8 +85,6 @@ io.on('connection', (socket) => {
           room: room,
           usersInRoom: usersInRoom.length,
         });
-        console.log(room);
-        console.log(usersInRoom.length);
         // usersIn room gives me the previous nr so added plus
 
         /* Check the room with how many socket is connected */
@@ -117,7 +112,6 @@ io.on('connection', (socket) => {
           //       : '';
 
           //   io.to(firstPlayerId).emit('isFirstPlayer');
-          //   console.log(result?.data);
           // });
 
           // cahnge to io.to(room)
@@ -136,11 +130,9 @@ io.on('connection', (socket) => {
       .getUserDetail(socket.id)
       .then((result) => {
         io.to(result?.data.room).emit('randomNumber', {
-          number: `${apiService.createRandomNumber(900, 900)}`,
+          number: `${apiService.createRandomNumber(9, 9)}`,
           isFirstNumber: true,
         });
-        console.log(result?.data.number);
-        console.log(result?.data.isFirstNumber);
 
         // like above nsps seems to be from an older
         // Is this to make the lets play player play first? so when
@@ -168,9 +160,6 @@ io.on('connection', (socket) => {
 
   /* Send Calculated number back with Divisible control */
   socket.on('sendNumber', ({ randomNumber, selectedNumber }) => {
-    console.log(randomNumber, ' RANDOM NUMBER ');
-    console.log(selectedNumber, ' SELECTED NUMBER');
-
     apiService.getUserDetail(socket.id).then((result) => {
       const numbers = [selectedNumber, randomNumber];
       const sumValues = (numbers: number[]) => {
@@ -196,9 +185,6 @@ io.on('connection', (socket) => {
       const isCorrectResult =
         calculationResult(numbers, randomNumber) == randomNumber ? false : true;
 
-      console.log(numbers, ' NUMBERS ');
-      console.log(lastResult, ' LAST RESULT ');
-
       // When the second oponnent is a CPU
       if (
         result?.data?.roomType === 'cpu' &&
@@ -218,8 +204,6 @@ io.on('connection', (socket) => {
           const combinedNumbers = [randomCPU, lastResult];
 
           const CPUResult = calculationResult(combinedNumbers, lastResult);
-
-          console.log(randomCPU, combinedNumbers, CPUResult, ' CPUS TURN');
 
           io.to(result?.data.room).emit('randomNumber', {
             number: calculationResult(combinedNumbers, lastResult),

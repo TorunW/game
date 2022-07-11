@@ -2,11 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import type { RootState } from '../../app/store'
 
 export type RoomType = {
+  uid: any;
   id: string;
   name: string;
   owner: string;
   type: string;
   usersInRoom?: number;
+  user: string;
 };
 
 // Define a type for the slice state
@@ -14,8 +16,7 @@ interface RoomState {
   rooms: RoomType[];
   chatroom: string;
   chatroomType: string;
-  // roomType: string;
-  //   value:
+  userId: string;
 }
 
 // Define the initial state using that type
@@ -23,6 +24,7 @@ const initialState: RoomState = {
   rooms: [],
   chatroom: '',
   chatroomType: '',
+  userId: '',
 };
 
 export const roomsSlice = createSlice({
@@ -44,7 +46,6 @@ export const roomsSlice = createSlice({
       const roomIndex = state.rooms.findIndex(
         (room) => room.id === action.payload.room.id
       );
-
       state.rooms[roomIndex].usersInRoom = action.payload.usersInRoom;
     },
   },
